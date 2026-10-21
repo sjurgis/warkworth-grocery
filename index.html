@@ -20,6 +20,15 @@ main{max-width:1100px;margin:auto;padding:0 16px 40px}.muted{color:var(--muted)}
 .badge.sp{background:#ffe1e1;color:#b3001b}.badge.mb{background:#e4ecff;color:#1f45a8}
 .chg{display:block;font-size:.75rem;font-weight:600}.chg.up{color:#c0392b}.chg.down{color:#1e8449}
 .warn{background:#fff3cd;border-radius:8px;padding:8px 12px;margin:8px 0}footer{font-size:.8rem;color:var(--muted);margin-top:24px}
+.pkg-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 14px}
+.pkg-btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-weight:600;cursor:pointer;color:var(--fg)}
+.pkg-btn:hover{border-color:#999}.pkg-btn.active{background:#1d2329;color:#fff;border-color:#1d2329}
+.pkg-hint{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+.qty-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0}
+.qty-table th,.qty-table td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)}
+.qty-table th{color:var(--muted);font-weight:600}
+details.qty-details{margin:10px 0 0;font-size:.9rem}
+details.qty-details summary{cursor:pointer;color:var(--muted)}
 @media (max-width:760px){.thead{display:none}.row{grid-template-columns:1fr;padding-bottom:6px}.item{background:#f0f2f5}
 .cell{border-left:0;display:grid;grid-template-columns:96px 1fr;column-gap:8px}.cell::before{content:attr(data-store);grid-row:span 6;font-weight:700;color:var(--muted)}}
 </style></head><body>
@@ -27,17 +36,33 @@ main{max-width:1100px;margin:auto;padding:0 16px 40px}.muted{color:var(--muted)}
 <div class="muted">Woolworths · New World · PAK'nSAVE Warkworth — 25 key ingredients. Updated <b>Wed 21 Oct 2026, 2:11 PM NZDT</b> · first snapshot, day-on-day changes start tomorrow</div></header>
 <main>
 <h2>Basket total</h2>
-<div class="cards"><div class="card" style="--c:#178841">
+<div class="pkg-bar" role="group" aria-label="Family package size">
+  <span class="muted small">Family size:</span>
+  <button type="button" class="pkg-btn" data-pkg="min" aria-pressed="false">Min</button><button type="button" class="pkg-btn active" data-pkg="mid" aria-pressed="true">Mid</button><button type="button" class="pkg-btn" data-pkg="max" aria-pressed="false">Max</button><button type="button" class="pkg-btn" data-pkg="hybrid" aria-pressed="false">Hybrid</button>
+</div>
+<p class="pkg-hint" id="pkg-hint">Mid — everyday reference quantities (e.g. 2 L milk, 1 kg mince, 12 eggs).</p>
+<div class="cards" id="basket-cards"><div class="card" data-store="woolworths" style="--c:#178841">
 <h3>Woolworths <span class="muted small">20-24 Neville St</span></h3>
-<div class="big">$154.59</div><div class="muted">+$7.20 (5% more)</div>
-<div class="muted">cheapest on 6 of 25 items</div></div><div class="card" style="--c:#e11a2c">
+<div class="big" data-role="total">$154.59</div>
+<div data-role="winextra"><div class="extra muted">+$7.20 (5% more)</div></div>
+<div class="muted">cheapest on 6 of 25 items</div>
+<div class="delta"></div></div><div class="card" data-store="newworld" style="--c:#e11a2c">
 <h3>New World <span class="muted small">6 Percy St</span></h3>
-<div class="big">$157.57</div><div class="muted">+$10.19 (7% more)</div>
-<div class="muted">cheapest on 5 of 25 items</div></div><div class="card win" style="--c:#f5c400">
+<div class="big" data-role="total">$157.57</div>
+<div data-role="winextra"><div class="extra muted">+$10.19 (7% more)</div></div>
+<div class="muted">cheapest on 5 of 25 items</div>
+<div class="delta"></div></div><div class="card win" data-store="paknsave" style="--c:#f5c400">
 <h3>PAK'nSAVE <span class="muted small">12 Hudson Rd</span></h3>
-<div class="big">$147.39</div><div class="winlbl">Cheapest basket</div>
-<div class="muted">cheapest on 16 of 25 items</div></div></div>
-<p class="muted small">Basket = 25 items priced at every store, each at a reference quantity (e.g. 2L milk, 1kg mince, 12 eggs) using the cheapest comparable product's unit price, so pack-size differences don't skew it.</p>
+<div class="big" data-role="total">$147.39</div>
+<div data-role="winextra"><div class="winlbl">Cheapest basket</div></div>
+<div class="muted">cheapest on 16 of 25 items</div>
+<div class="delta"></div></div></div>
+<p class="muted small">Basket = 25 items priced at every store, each at the selected package quantity × that store's cheapest comparable unit price. Pack-size differences don't skew it. Item-by-item table below always shows unit prices.</p>
+<details class="qty-details"><summary>Package quantities used</summary>
+<table class="qty-table"><thead><tr><th>Item</th><th>Min</th><th>Mid</th><th>Max</th><th>Hybrid</th></tr></thead>
+<tbody><tr><td>Milk, standard (blue) 2L</td><td>1L</td><td>2L</td><td>4L</td><td>2L<span class="muted"> fresh</span></td></tr><tr><td>Butter, salted 500g block</td><td>0.25kg</td><td>0.5kg</td><td>1kg</td><td>0.5kg<span class="muted"> fresh</span></td></tr><tr><td>Eggs, free range size 7 (per dozen)</td><td>6</td><td>12</td><td>24</td><td>12<span class="muted"> fresh</span></td></tr><tr><td>White toast/sandwich bread loaf</td><td>0.6kg</td><td>0.7kg</td><td>1.4kg</td><td>0.7kg<span class="muted"> fresh</span></td></tr><tr><td>Flour, plain/standard 1.5kg</td><td>1.5kg</td><td>1.5kg</td><td>5kg</td><td>5kg<span class="muted"> pantry</span></td></tr><tr><td>Sugar, white 1.5kg</td><td>1.5kg</td><td>1.5kg</td><td>3kg</td><td>3kg<span class="muted"> pantry</span></td></tr><tr><td>Rice, long grain white 1kg</td><td>1kg</td><td>1kg</td><td>2kg</td><td>2kg<span class="muted"> pantry</span></td></tr><tr><td>Spaghetti pasta 500g</td><td>0.5kg</td><td>0.5kg</td><td>1.5kg</td><td>1.5kg<span class="muted"> pantry</span></td></tr><tr><td>Chicken breast, skinless (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Beef mince, standard (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Cheese, tasty block 700g-1kg</td><td>0.5kg</td><td>1kg</td><td>1.5kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Bananas, loose (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Apples, Royal Gala (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Potatoes, white/washed (per kg)</td><td>1kg</td><td>2kg</td><td>4kg</td><td>2kg<span class="muted"> fresh</span></td></tr><tr><td>Onions, brown (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Carrots (per kg)</td><td>0.5kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Tomatoes, loose red (per kg)</td><td>0.5kg</td><td>1kg</td><td>1.5kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Broccoli head (each)</td><td>1</td><td>1</td><td>2</td><td>1<span class="muted"> fresh</span></td></tr><tr><td>Lettuce, iceberg (each)</td><td>1</td><td>1</td><td>2</td><td>1<span class="muted"> fresh</span></td></tr><tr><td>Canned chopped/diced tomatoes 400g</td><td>0.4kg</td><td>0.4kg</td><td>1.2kg</td><td>1.2kg<span class="muted"> pantry</span></td></tr><tr><td>Baked beans 400-420g can</td><td>0.42kg</td><td>0.42kg</td><td>1.26kg</td><td>1.26kg<span class="muted"> pantry</span></td></tr><tr><td>Olive oil, extra virgin 1L</td><td>0.5L</td><td>1L</td><td>2L</td><td>2L<span class="muted"> pantry</span></td></tr><tr><td>Yoghurt, natural/plain 750g-1kg</td><td>0.75kg</td><td>1kg</td><td>2kg</td><td>1kg<span class="muted"> fresh</span></td></tr><tr><td>Rolled oats 750g-1.5kg</td><td>0.75kg</td><td>1kg</td><td>1.5kg</td><td>1.5kg<span class="muted"> pantry</span></td></tr><tr><td>Moccona Classic instant coffee (per 100g)</td><td>0.1kg</td><td>0.1kg</td><td>0.2kg</td><td>0.2kg<span class="muted"> pantry</span></td></tr></tbody></table>
+<p class="muted small">Hybrid = max on pantry/non-perishables (flour, sugar, rice, pasta, canned tomatoes, baked beans, olive oil, oats, coffee), mid on fresh/perishables.</p>
+</details>
 <h2>🔥 Top deals today</h2>
 <div class="panel"><ul><li><b>Broccoli head (each)</b> at <b>New World</b>: $0.99 <s>$1.99</s> <span class="save">save 50%</span><br><span class="muted">Broccoli ea</span></li><li><b>Moccona Classic instant coffee (per 100g)</b> at <b>New World</b>: $7.99 <s>$14.99</s> <span class="save">save 47%</span> (member price)<br><span class="muted">Moccona Classic Medium Roast Instant Coffee Refill 90g</span></li><li><b>Cheese, tasty block 700g-1kg</b> at <b>New World</b>: $11.99 <s>$16.69</s> <span class="save">save 28%</span> (member price)<br><span class="muted">Rolling Meadow Tasty Cheese 800g</span></li><li><b>Beef mince, standard (per kg)</b> at <b>Woolworths</b>: $17.99 <s>$21.99</s> <span class="save">save 18%</span><br><span class="muted">Woolworths Nz Beef Mince Grass Fed 18% Fat 1kg tray</span></li><li><b>Yoghurt, natural/plain 750g-1kg</b> at <b>New World</b>: $5.79 <s>$6.99</s> <span class="save">save 17%</span> (member price)<br><span class="muted">Naturalea Plain Unsweetened Acidophilus Yoghurt 1kg</span></li><li><b>Eggs, free range size 7 (per dozen)</b> at <b>Woolworths</b>: $9.90 <s>$11.95</s> <span class="save">save 17%</span><br><span class="muted">Better Eggs S.P.C.A Eggs Free Range Size 7 12pack</span></li><li><b>Chicken breast, skinless (per kg)</b> at <b>Woolworths</b>: $13.50 <s>$15.40</s> <span class="save">save 12%</span><br><span class="muted">Woolworths Nz Chicken Breast Skinless Boneless per kg</span></li><li><b>Moccona Classic instant coffee (per 100g)</b> at <b>Woolworths</b>: $42.99 <s>$47.99</s> <span class="save">save 10%</span><br><span class="muted">Moccona Instant Coffee Classic Medium Roast </span></li></ul>
 
@@ -422,4 +447,87 @@ main{max-width:1100px;margin:auto;padding:0 16px 40px}.muted{color:var(--muted)}
 </div></div></div>
 <footer><p>Prices are the stores' online prices for the Warkworth stores (Woolworths click &amp; collect Warkworth, New World Warkworth, PAK'nSAVE Warkworth) and can differ slightly in-store. For each item the cheapest matching product at each store is shown (house brands included); ★ marks the lowest unit price. "Club price"/"Clubcard" means the price needs the store's free loyalty card. Multibuy deals are shown but not used in totals.</p>
 <p>Unofficial page, not affiliated with any supermarket. Generated 2026-10-21T14:11:20+13:00.</p></footer>
-</main></body></html>
+</main>
+<script id="basket-data" type="application/json">{"stores":["woolworths","newworld","paknsave"],"short":{"woolworths":"Woolworths","newworld":"New World","paknsave":"PAK'nSAVE"},"prevDate":null,"prevComplete":false,"unitPrices":{"milk":{"woolworths":2.36,"newworld":2.36,"paknsave":2.34},"butter":{"woolworths":15.0,"newworld":15.0,"paknsave":13.0},"eggs":{"woolworths":0.825,"newworld":0.899,"paknsave":0.791},"bread":{"woolworths":3.5,"newworld":3.5,"paknsave":3.4},"flour":{"woolworths":1.3,"newworld":1.3,"paknsave":1.0},"sugar":{"woolworths":2.3,"newworld":2.3,"paknsave":1.7},"rice":{"woolworths":2.5,"newworld":2.5,"paknsave":2.7},"spaghetti":{"woolworths":3.0,"newworld":3.6,"paknsave":3.0},"chicken":{"woolworths":13.5,"newworld":15.69,"paknsave":13.99},"mince":{"woolworths":17.99,"newworld":19.99,"paknsave":18.99},"cheese":{"woolworths":17.0,"newworld":15.0,"paknsave":16.0},"bananas":{"woolworths":3.99,"newworld":3.79,"paknsave":3.59},"apples":{"woolworths":5.85,"newworld":5.33,"paknsave":4.99},"potatoes":{"woolworths":2.67,"newworld":3.99,"paknsave":3.12},"onions":{"woolworths":3.27,"newworld":3.19,"paknsave":3.0},"carrots":{"woolworths":2.39,"newworld":2.49,"paknsave":1.99},"tomatoes":{"woolworths":8.25,"newworld":6.99,"paknsave":7.99},"broccoli":{"woolworths":2.0,"newworld":0.99,"paknsave":1.49},"lettuce":{"woolworths":2.0,"newworld":3.49,"paknsave":2.69},"canned_tomatoes":{"woolworths":2.35,"newworld":2.43,"paknsave":2.08},"baked_beans":{"woolworths":2.5,"newworld":2.7,"paknsave":1.2},"olive_oil":{"woolworths":17.4,"newworld":17.4,"paknsave":15.0},"yoghurt":{"woolworths":5.6,"newworld":5.8,"paknsave":4.0},"oats":{"woolworths":3.3,"newworld":3.3,"paknsave":3.0},"coffee":{"woolworths":107.5,"newworld":88.8,"paknsave":117.9}},"prevPrices":{"milk":{"woolworths":null,"newworld":null,"paknsave":null},"butter":{"woolworths":null,"newworld":null,"paknsave":null},"eggs":{"woolworths":null,"newworld":null,"paknsave":null},"bread":{"woolworths":null,"newworld":null,"paknsave":null},"flour":{"woolworths":null,"newworld":null,"paknsave":null},"sugar":{"woolworths":null,"newworld":null,"paknsave":null},"rice":{"woolworths":null,"newworld":null,"paknsave":null},"spaghetti":{"woolworths":null,"newworld":null,"paknsave":null},"chicken":{"woolworths":null,"newworld":null,"paknsave":null},"mince":{"woolworths":null,"newworld":null,"paknsave":null},"cheese":{"woolworths":null,"newworld":null,"paknsave":null},"bananas":{"woolworths":null,"newworld":null,"paknsave":null},"apples":{"woolworths":null,"newworld":null,"paknsave":null},"potatoes":{"woolworths":null,"newworld":null,"paknsave":null},"onions":{"woolworths":null,"newworld":null,"paknsave":null},"carrots":{"woolworths":null,"newworld":null,"paknsave":null},"tomatoes":{"woolworths":null,"newworld":null,"paknsave":null},"broccoli":{"woolworths":null,"newworld":null,"paknsave":null},"lettuce":{"woolworths":null,"newworld":null,"paknsave":null},"canned_tomatoes":{"woolworths":null,"newworld":null,"paknsave":null},"baked_beans":{"woolworths":null,"newworld":null,"paknsave":null},"olive_oil":{"woolworths":null,"newworld":null,"paknsave":null},"yoghurt":{"woolworths":null,"newworld":null,"paknsave":null},"oats":{"woolworths":null,"newworld":null,"paknsave":null},"coffee":{"woolworths":null,"newworld":null,"paknsave":null}},"packages":{"milk":{"min":1,"mid":2,"max":4,"hybrid":2},"butter":{"min":0.25,"mid":0.5,"max":1,"hybrid":0.5},"eggs":{"min":6,"mid":12,"max":24,"hybrid":12},"bread":{"min":0.6,"mid":0.7,"max":1.4,"hybrid":0.7},"flour":{"min":1.5,"mid":1.5,"max":5,"hybrid":5},"sugar":{"min":1.5,"mid":1.5,"max":3,"hybrid":3},"rice":{"min":1,"mid":1,"max":2,"hybrid":2},"spaghetti":{"min":0.5,"mid":0.5,"max":1.5,"hybrid":1.5},"chicken":{"min":0.5,"mid":1,"max":2,"hybrid":1},"mince":{"min":0.5,"mid":1,"max":2,"hybrid":1},"cheese":{"min":0.5,"mid":1,"max":1.5,"hybrid":1},"bananas":{"min":0.5,"mid":1,"max":2,"hybrid":1},"apples":{"min":0.5,"mid":1,"max":2,"hybrid":1},"potatoes":{"min":1,"mid":2,"max":4,"hybrid":2},"onions":{"min":0.5,"mid":1,"max":2,"hybrid":1},"carrots":{"min":0.5,"mid":1,"max":2,"hybrid":1},"tomatoes":{"min":0.5,"mid":1,"max":1.5,"hybrid":1},"broccoli":{"min":1,"mid":1,"max":2,"hybrid":1},"lettuce":{"min":1,"mid":1,"max":2,"hybrid":1},"canned_tomatoes":{"min":0.4,"mid":0.4,"max":1.2,"hybrid":1.2},"baked_beans":{"min":0.42,"mid":0.42,"max":1.26,"hybrid":1.26},"olive_oil":{"min":0.5,"mid":1,"max":2,"hybrid":2},"yoghurt":{"min":0.75,"mid":1,"max":2,"hybrid":1},"oats":{"min":0.75,"mid":1,"max":1.5,"hybrid":1.5},"coffee":{"min":0.1,"mid":0.1,"max":0.2,"hybrid":0.2}},"nBasket":25}</script>
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('basket-data').textContent);
+  const HINTS = {
+    min: "Min — smaller household quantities.",
+    mid: "Mid — everyday reference quantities (e.g. 2 L milk, 1 kg mince, 12 eggs).",
+    max: "Max — larger / stock-up quantities.",
+    hybrid: "Hybrid — max on pantry staples, mid on fresh & perishables."
+  };
+  const money = v => "$" + v.toLocaleString("en-NZ", {minimumFractionDigits:2, maximumFractionDigits:2});
+
+  function totalsFor(pkg){
+    const totals = {};
+    const prevTotals = {};
+    DATA.stores.forEach(sk => { totals[sk] = 0; prevTotals[sk] = 0; });
+    let complete = true;
+    for (const key of Object.keys(DATA.packages)){
+      const qty = DATA.packages[key][pkg];
+      const ups = DATA.unitPrices[key] || {};
+      const pups = DATA.prevPrices[key] || {};
+      // only count items priced at every live store (same rule as server)
+      if (!DATA.stores.every(sk => ups[sk] != null)) continue;
+      DATA.stores.forEach(sk => {
+        totals[sk] += ups[sk] * qty;
+        if (pups[sk] != null) prevTotals[sk] += pups[sk] * qty;
+        else complete = false;
+      });
+    }
+    return { totals, prevTotals, complete: complete && DATA.prevComplete };
+  }
+
+  function apply(pkg){
+    const { totals, prevTotals, complete } = totalsFor(pkg);
+    const vals = DATA.stores.map(sk => totals[sk]);
+    const cheapest = vals.length ? Math.min(...vals) : null;
+    DATA.stores.forEach(sk => {
+      const card = document.querySelector('.card[data-store="'+sk+'"]');
+      if (!card) return;
+      const tot = totals[sk];
+      card.querySelector('[data-role="total"]').textContent = money(tot);
+      const win = cheapest != null && Math.abs(tot - cheapest) < 0.005;
+      card.classList.toggle('win', win);
+      const we = card.querySelector('[data-role="winextra"]');
+      if (we){
+        if (win) we.innerHTML = '<div class="winlbl">Cheapest basket</div>';
+        else {
+          const extra = tot - cheapest;
+          const pct = (tot / cheapest - 1) * 100;
+          we.innerHTML = '<div class="extra muted">+' + money(extra) + ' (' + pct.toFixed(0) + '% more)</div>';
+        }
+      }
+      const delta = card.querySelector('.delta');
+      if (delta){
+        if (complete && prevTotals[sk]){
+          const d = tot - prevTotals[sk];
+          if (Math.abs(d) >= 0.01){
+            delta.className = 'delta chg ' + (d > 0 ? 'up' : 'down');
+            delta.textContent = (d > 0 ? '▲ ' : '▼ ') + money(Math.abs(d)) + ' vs ' + DATA.prevDate;
+          } else {
+            delta.className = 'delta muted';
+            delta.textContent = 'no change vs ' + DATA.prevDate;
+          }
+        } else {
+          delta.className = 'delta';
+          delta.textContent = '';
+        }
+      }
+    });
+    document.getElementById('pkg-hint').textContent = HINTS[pkg] || '';
+    document.querySelectorAll('.pkg-btn').forEach(btn => {
+      const on = btn.dataset.pkg === pkg;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  document.querySelectorAll('.pkg-btn').forEach(btn => {
+    btn.addEventListener('click', () => apply(btn.dataset.pkg));
+  });
+})();
+</script>
+</body></html>
